@@ -30,6 +30,7 @@ Meteor.methods({
       name,
       createdAt: new Date(),
       owner: Meteor.userId(),
+      published:true,
       username: Meteor.user().username,
     });
     toastr.success('Recipe <b style="color:red;">'+name+'</b> added');
@@ -47,7 +48,7 @@ Meteor.methods({
       toastr.success('Recipe <b style="color:red;">'+recipeInfo.name+'</b> has been deleted.', 'Success');
       
     } else {
-      toastr.warning('You\'re not allowed to remove <b style="color:red;">'+recipeInfo.name+'</b> because you\'re not the owner.', 'Permission');
+      toastr.warning('You\'re not allowed to remove <b style="color:red;">'+recipeInfo.name+'</b> recipe because you\'re not the owner.', 'Permission');
       console.log('Not allowed to delete');
     }
     //Recipes.remove(recipeId);
@@ -55,8 +56,17 @@ Meteor.methods({
   'recipes.setChecked'(recipeId, setChecked) {
     check(recipeId, String);
     check(setChecked, Boolean);
- 
-    Recipes.update(recipeId, { $set: { checked: setChecked } });
+
+    var recipeInfo = Recipes.findOne(recipeId);
+    var recipeOwner = recipeInfo.owner;
+    
+    if (recipeOwner == Meteor.userId()){
+      Recipes.update(recipeId, { $set: { checked: setChecked, published: setChecked } });
+      toastr.success('Recipe <b style="color:red;">'+recipeInfo.name+'</b> recipe has been updated.', 'Success');
+    } else {
+      toastr.warning('You\'re not allowed to update <b style="color:red;">'+recipeInfo.name+'</b> recipe because you\'re not the owner.', 'Permission');
+    }  
+    
   },
   'recipes.setPrivate'(recipeId, setToPrivate) {
     check(recipeId, String);

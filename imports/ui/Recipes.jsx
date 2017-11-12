@@ -13,7 +13,7 @@ export default class Recipe extends Component {
     // Recipes.update(this.props.recipe._id, {
     //   $set: { checked: !this.props.recipe.checked },
     // });
-    Meteor.call('recipes.setChecked', this.props.recipe._id, !this.props.recipe.checked);
+    Meteor.call('recipes.setChecked', this.props.recipe._id, !this.props.recipe.published);
   }
  
   deleteThisRecipe() {
@@ -32,7 +32,7 @@ export default class Recipe extends Component {
   render() {
   	// Give tasks a different className when they are checked off,
     // so that we can style them nicely in CSS
-    const recipeClassName = this.props.recipe.checked ? 'checked' : '';
+    const recipeClassName = this.props.recipe.published ? 'checked' : '';
     const isLogged = Meteor.user();
     var ownerID = this.props.recipe.owner;
     console.log(this.props.recipe);
@@ -51,7 +51,7 @@ export default class Recipe extends Component {
 	        <input
 	          type="checkbox"
 	          readOnly
-	          checked={this.props.recipe.checked}
+	          checked={this.props.recipe.published}
 	          onClick={this.toggleChecked.bind(this)}
 	        />
             

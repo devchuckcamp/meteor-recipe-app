@@ -50,7 +50,7 @@ export class App extends Component {
       filteredRecipe = filteredRecipe.filter(recipe => !recipe.checked);
     }
 
-    
+
     // return filteredRecipe.map((recipe) => (
     //   <Recipe key={recipe._id} recipe={recipe} />
     // ));
@@ -83,7 +83,7 @@ export class App extends Component {
               checked={this.state.hideCompleted}
               onClick={this.toggleHideCompleted.bind(this)}
             />
-            Hide Completed Tasks
+            Hide Unpublished Recipe
           </label>
 
           <AccountsUIWrapper />
@@ -99,9 +99,7 @@ export class App extends Component {
           }
 
         </header>
-        <div className="alert alert-warning">
-          You're now allowed to edit or delete other user's property.
-        </div>
+        
         <ul>
           {this.renderRecipe()}
         </ul>
